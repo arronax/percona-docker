@@ -172,14 +172,15 @@ fi
 
 ARG JEMALLOC
 RUN if [[ -n $JEMALLOC ]] ; then \
-  microdnf install -y perl; \
+  microdnf install -y perl \
+  binutils; \
 fi
 
 USER 1001
 
 VOLUME ["/var/lib/mysql", "/var/log/mysql"]
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/jemalloc-profiling.sh"]
 
 EXPOSE 3306 4567 4568
-CMD ["mysqld"]
+CMD ["/entrypoint.sh", "mysqld"]
